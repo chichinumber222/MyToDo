@@ -11,17 +11,12 @@ const App = () => {
     { state: null, text: "Active task", id: 3 },
   ];
 
-  const countLeft = todoData.reduce((acc, item) => {
-    if (item.state === "completed") acc++;
-    return acc;
-  }, 0);
-
   return (
     <section className="todoapp">
       <NewTaskForm />
       <section className="main">
         <TaskList todos={todoData} />
-        <Footer count={countLeft} />
+        <Footer todos={todoData} />
       </section>
     </section>
   );
