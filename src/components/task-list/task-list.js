@@ -2,17 +2,19 @@ import React from "react";
 import Task from "../task";
 import "./task-list.css";
 
-const TaskList = ({ todos }) => {
-  const elements = todos.map((item) => {
-    return (
-      <li className={item.state} key={item.id}>
-        <Task text={item.text} />
-        <input type="text" className="edit" value={item.text} />
-      </li>
-    );
-  });
+class TaskList extends React.Component {
+  render() {
+    const { todos, markComplete, onDel } = this.props;
 
-  return <ul className="todo-list">{elements}</ul>;
-};
+    const elements = todos.map((item) => {
+      const { id } = item;
+      return (
+        <Task {...item} key={id} onMarkComplete={markComplete} onDel={onDel} />
+      );
+    });
+
+    return <ul className="todo-list">{elements}</ul>;
+  }
+}
 
 export default TaskList;
