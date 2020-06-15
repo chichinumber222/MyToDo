@@ -5,28 +5,31 @@ import Footer from "../footer";
 import "./app.css";
 
 class App extends React.Component {
+  maxId = 100;
   state = {
     todoData: [
-      { condition: "completed", text: "task №1", id: 1 },
-      { condition: "editing", text: "task №2", id: 2 },
-      { condition: null, text: "task №3", id: 3 },
+      this.createTask('task №1'),
+      this.createTask('task №2'),
+      this.createTask('task №3'),
     ],
   };
   onMarkComplete = (id) => {
     this.setState(({ todoData }) => {
-      const item = todoData.find((el) => el.id === id);
-      const newCondition = item.condition === "completed" ? null : "completed";
-      const newItem = { ...item, condition: newCondition };
+      const index = todoData.findIndex((el) => el.id === id);
+      const oldItem = todoData[index];
 
-      const newArray = todoData.reduce((acc, item) => {
-        item.id === id ? acc.push(newItem) : acc.push(item);
-        return acc;
-      }, []);
+      const newCondition = oldItem.condition === "completed" ? null : "completed";
+      const newItem = {...oldItem, condition: newCondition};
 
+      const newArray = [
+        ...todoData.slice(0, index),
+        newItem,
+        ...todoData.slice(index + 1)
+      ]
       return {
-        todoData: newArray,
-      };
-    });
+        todoData: newArray
+      }
+    })
   };
   onDelete = (id) => {
     this.setState(({ todoData }) => {
@@ -41,13 +44,30 @@ class App extends React.Component {
       };
     });
   };
+  onAdd = (text) => {
+    const item = this.createTask(text);
+    this.setState(({ todoData }) => {
+      const newArray = [item, ...todoData];
+      return {
+        todoData: newArray
+      }
+    })
+  }
+
+  createTask(text) {
+    return {
+      condition: null,
+      text,
+      id: this.maxId++
+    }
+  }
 
   render() {
     const { todoData } = this.state;
 
     return (
       <section className="todoapp">
-        <NewTaskForm />
+        <NewTaskForm onAdd={this.onAdd}/>
         <section className="main">
           <TaskList
             todos={todoData}
