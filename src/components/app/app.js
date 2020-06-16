@@ -8,29 +8,30 @@ class App extends React.Component {
   maxId = 100;
   state = {
     todoData: [
-      this.createTask('task №1'),
-      this.createTask('task №2'),
-      this.createTask('task №3'),
+      this.createTask("task №1"),
+      this.createTask("task №2"),
+      this.createTask("task №3"),
     ],
-    tab: 'all'
+    tab: "all",
   };
   onMarkComplete = (id) => {
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id);
       const oldItem = todoData[index];
 
-      const newCondition = oldItem.condition === "completed" ? 'active' : "completed";
-      const newItem = {...oldItem, condition: newCondition};
+      const newCondition =
+        oldItem.condition === "completed" ? "active" : "completed";
+      const newItem = { ...oldItem, condition: newCondition };
 
       const newArray = [
         ...todoData.slice(0, index),
         newItem,
-        ...todoData.slice(index + 1)
-      ]
+        ...todoData.slice(index + 1),
+      ];
       return {
-        todoData: newArray
-      }
-    })
+        todoData: newArray,
+      };
+    });
   };
   onDelete = (id) => {
     this.setState(({ todoData }) => {
@@ -50,45 +51,49 @@ class App extends React.Component {
     this.setState(({ todoData }) => {
       const newArray = [item, ...todoData];
       return {
-        todoData: newArray
-      }
-    })
-  }
+        todoData: newArray,
+      };
+    });
+  };
   onTab = (name) => {
     this.setState({
-      tab: name
-    })
-  }
+      tab: name,
+    });
+  };
   onDeleteCompleted = () => {
-    this.setState(({todoData}) => {
-      const newArray = todoData.filter((item) => item.condition !== 'completed');
+    this.setState(({ todoData }) => {
+      const newArray = todoData.filter(
+        (item) => item.condition !== "completed"
+      );
       return {
-        todoData: newArray
-      }
-    })
-  }
+        todoData: newArray,
+      };
+    });
+  };
 
   createTask(text) {
     return {
-      condition: 'active',
+      condition: "active",
       text,
-      id: this.maxId++
-    }
+      id: this.maxId++,
+    };
   }
 
   render() {
-    const { todoData } = this.state;
-
     return (
       <section className="todoapp">
-        <NewTaskForm onAdd={this.onAdd}/>
+        <NewTaskForm add={this.onAdd} />
         <section className="main">
           <TaskList
             {...this.state}
             markComplete={this.onMarkComplete}
-            onDel={this.onDelete}
+            del={this.onDelete}
           />
-          <Footer todos={todoData} onTab={this.onTab} deleteCompleted={this.onDeleteCompleted}/>
+          <Footer
+            {...this.state}
+            onTab={this.onTab}
+            deleteCompleted={this.onDeleteCompleted}
+          />
         </section>
       </section>
     );

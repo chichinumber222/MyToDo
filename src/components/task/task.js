@@ -3,8 +3,8 @@ import "./task.css";
 
 class Task extends React.Component {
   render() {
-    const { condition, id, text, onMarkComplete, onDel } = this.props;
-    const check = condition === 'completed' ? true : false;
+    const { condition, id, text, markComplete, del } = this.props;
+    const check = condition === "completed" ? true : false;
 
     return (
       <li className={condition}>
@@ -12,7 +12,7 @@ class Task extends React.Component {
           <input
             className="toggle"
             type="checkbox"
-            onChange={() => onMarkComplete(id)}
+            onChange={() => markComplete(id)}
             checked={check}
           />
           <label>
@@ -22,7 +22,7 @@ class Task extends React.Component {
           <button className="icon icon-edit"></button>
           <button
             className="icon icon-destroy"
-            onClick={() => onDel(id)}
+            onClick={() => del(id)}
           ></button>
         </div>
         <input type="text" className="edit" defaultValue={text} />

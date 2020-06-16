@@ -2,18 +2,16 @@ import React from "react";
 import TasksFilter from "../tasks-filter";
 import "./footer.css";
 
-const Footer = ({ todos, onTab, deleteCompleted }) => {
-
-  const count = todos.reduce((acc, item) => {
-    if (item.condition !== "completed") acc++;
-    return acc;
-  }, 0);
+const Footer = ({ todoData, deleteCompleted, ...tabs}) => {
+  const count = todoData.filter((el) => el.condition !== "completed").length 
 
   return (
     <footer className="footer">
       <span className="todo-count">{count} items left</span>
-      <TasksFilter onTab={onTab}/>
-      <button className="clear-completed" onClick={deleteCompleted}>Clear completed</button>
+      <TasksFilter {...tabs}/>
+      <button className="clear-completed" onClick={deleteCompleted}>
+        Clear completed
+      </button>
     </footer>
   );
 };

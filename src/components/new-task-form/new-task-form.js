@@ -14,7 +14,7 @@ class NewTaskForm extends React.Component {
 
   submitForm = (e) => {
     e.preventDefault();
-    this.props.onAdd(this.state.value);
+    this.props.add(this.state.value);
     this.setState({
       value: ''
     })

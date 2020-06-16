@@ -4,13 +4,16 @@ import "./task-list.css";
 
 class TaskList extends React.Component {
   render() {
-    const { todoData, tab, markComplete, onDel } = this.props;
-    const todoWithTab = tab === "all" ? todoData : todoData.filter((item) => item.condition === tab);
+    const { todoData, tab, ...forTask} = this.props;
+    const todoWithTab =
+      tab === "all"
+        ? todoData
+        : todoData.filter((item) => item.condition === tab);
 
     const elements = todoWithTab.map((item) => {
       const { id } = item;
       return (
-        <Task {...item} key={id} onMarkComplete={markComplete} onDel={onDel} />
+        <Task {...item} key={id} {...forTask} />
       );
     });
 
