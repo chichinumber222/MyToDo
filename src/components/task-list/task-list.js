@@ -4,7 +4,7 @@ import "./task-list.css";
 
 class TaskList extends React.Component {
   render() {
-    const { todoData, tab, ...forTask} = this.props;
+    const { todoData, tab, ...forTask } = this.props;
     const todoWithTab =
       tab === "all"
         ? todoData
@@ -12,9 +12,7 @@ class TaskList extends React.Component {
 
     const elements = todoWithTab.map((item) => {
       const { id } = item;
-      return (
-        <Task {...item} key={id} {...forTask} />
-      );
+      return <Task {...item} key={id} {...forTask} />;
     });
 
     return <ul className="todo-list">{elements}</ul>;

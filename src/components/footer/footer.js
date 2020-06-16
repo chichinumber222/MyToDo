@@ -2,13 +2,13 @@ import React from "react";
 import TasksFilter from "../tasks-filter";
 import "./footer.css";
 
-const Footer = ({ todoData, deleteCompleted, ...tabs}) => {
-  const count = todoData.filter((el) => el.condition !== "completed").length 
+const Footer = ({ todoData, deleteCompleted, ...tabs }) => {
+  const count = todoData.filter((el) => el.condition !== "completed").length;
 
   return (
     <footer className="footer">
       <span className="todo-count">{count} items left</span>
-      <TasksFilter {...tabs}/>
+      <TasksFilter {...tabs} />
       <button className="clear-completed" onClick={deleteCompleted}>
         Clear completed
       </button>

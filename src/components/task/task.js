@@ -1,10 +1,12 @@
 import React from "react";
 import "./task.css";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 class Task extends React.Component {
   render() {
-    const { condition, id, text, markComplete, del } = this.props;
+    const { condition, id, text, markComplete, del, time } = this.props;
     const check = condition === "completed" ? true : false;
+    const timeAgo = formatDistanceToNow(time, { includeSeconds: true });
 
     return (
       <li className={condition}>
@@ -17,7 +19,7 @@ class Task extends React.Component {
           />
           <label>
             <span className="description">{text}</span>
-            <span className="created">created 17 seconds ago</span>
+            <span className="created">{timeAgo} ago</span>
           </label>
           <button className="icon icon-edit"></button>
           <button
