@@ -4,7 +4,7 @@ import "./task.css";
 class Task extends React.Component {
   render() {
     const { condition, id, text, onMarkComplete, onDel } = this.props;
-    const check = condition ? true : false;
+    const check = condition === 'completed' ? true : false;
 
     return (
       <li className={condition}>

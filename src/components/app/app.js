@@ -12,13 +12,14 @@ class App extends React.Component {
       this.createTask('task №2'),
       this.createTask('task №3'),
     ],
+    tab: 'all'
   };
   onMarkComplete = (id) => {
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id);
       const oldItem = todoData[index];
 
-      const newCondition = oldItem.condition === "completed" ? null : "completed";
+      const newCondition = oldItem.condition === "completed" ? 'active' : "completed";
       const newItem = {...oldItem, condition: newCondition};
 
       const newArray = [
@@ -53,10 +54,23 @@ class App extends React.Component {
       }
     })
   }
+  onTab = (name) => {
+    this.setState({
+      tab: name
+    })
+  }
+  onDeleteCompleted = () => {
+    this.setState(({todoData}) => {
+      const newArray = todoData.filter((item) => item.condition !== 'completed');
+      return {
+        todoData: newArray
+      }
+    })
+  }
 
   createTask(text) {
     return {
-      condition: null,
+      condition: 'active',
       text,
       id: this.maxId++
     }
@@ -70,11 +84,11 @@ class App extends React.Component {
         <NewTaskForm onAdd={this.onAdd}/>
         <section className="main">
           <TaskList
-            todos={todoData}
+            {...this.state}
             markComplete={this.onMarkComplete}
             onDel={this.onDelete}
           />
-          <Footer todos={todoData} />
+          <Footer todos={todoData} onTab={this.onTab} deleteCompleted={this.onDeleteCompleted}/>
         </section>
       </section>
     );
