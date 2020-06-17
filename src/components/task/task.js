@@ -5,7 +5,6 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 class Task extends React.Component {
   render() {
     const { condition, id, text, markComplete, del, time } = this.props;
-    const check = condition === "completed" ? true : false;
     const timeAgo = formatDistanceToNow(time, { includeSeconds: true });
 
     return (
@@ -15,7 +14,7 @@ class Task extends React.Component {
             className="toggle"
             type="checkbox"
             onChange={() => markComplete(id)}
-            checked={check}
+            checked={condition === "completed" ? true : false}
           />
           <label>
             <span className="description">{text}</span>
@@ -35,4 +34,3 @@ class Task extends React.Component {
 
 export default Task;
 
-// test commit
