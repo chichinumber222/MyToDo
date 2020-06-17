@@ -70,13 +70,28 @@ class App extends React.Component {
       };
     });
   };
+  onEditing = (id, obj) => {
+    this.setState(({ todoData }) => {
+      const index = todoData.findIndex((el) => el.id === id);
+      const oldItem = todoData[index];
+      const newItem = { ...oldItem, ...obj };
+      const newArray = [
+        ...todoData.slice(0, index),
+        newItem,
+        ...todoData.slice(index + 1),
+      ];
+      return {
+        todoData: newArray,
+      };
+    });
+  };
 
   createTask(text) {
     return {
       condition: "active",
       text,
       id: this.maxId++,
-      time: new Date()
+      time: new Date(),
     };
   }
 
@@ -89,6 +104,7 @@ class App extends React.Component {
             {...this.state}
             markComplete={this.onMarkComplete}
             del={this.onDelete}
+            edit={this.onEditing}
           />
           <Footer
             {...this.state}
