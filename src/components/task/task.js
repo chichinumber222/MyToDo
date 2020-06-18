@@ -75,6 +75,7 @@ class Task extends React.Component {
             value={this.state.currentText}
             onChange={this.changeField}
             onBlur={this.editFnBlur}
+            autoFocus
           />
         </form>
       </li>
