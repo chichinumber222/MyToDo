@@ -6,10 +6,8 @@ import PropTypes from 'prop-types';
 class TaskList extends React.Component {
   static propTypes = {
     todoData: PropTypes.arrayOf(PropTypes.object).isRequired,
-    tab: PropTypes.oneOf(['all', 'active', 'completed']).isRequired
+    tab: PropTypes.oneOf(['all', 'active', 'completed']).isRequired,
   }
-
-  
 
   render() {
     const { todoData, tab, ...forTask } = this.props;
