@@ -14,7 +14,7 @@ class Task extends React.Component {
   }
 
   render() {
-    const { condition, id, text, markComplete, del, time } = this.props;
+    const { condition, id, text, time, markComplete, del  } = this.props;
     const timeAgo = formatDistanceToNow(time, { includeSeconds: true });
 
     return (
