@@ -76,7 +76,7 @@ class App extends React.Component {
       condition: "active",
       text,
       id: this.maxId++,
-      time: new Date()
+      time: new Date(),
     };
   }
 
