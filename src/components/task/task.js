@@ -4,6 +4,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import PropTypes from 'prop-types';
 
 class Task extends React.Component {
+  
   static propTypes = {
     condition: PropTypes.oneOf(['active', 'completed', 'editing']).isRequired,
     id: PropTypes.number.isRequired,
