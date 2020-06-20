@@ -18,8 +18,7 @@ class Task extends React.Component {
       previousText: this.props.text,
       currentText: this.props.text
     });
-    this.props.edit(this.props.id, {"condition": "editing"});
-    setTimeout(() => this.editInput.current.focus(), 0)
+    this.props.edit(this.props.id, {"condition": "editing"}, this.editInput.current);
   };
   editFnBlur = () => {
     if (this.state.flag) {
