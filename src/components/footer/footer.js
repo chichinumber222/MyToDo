@@ -1,6 +1,7 @@
 import React from "react";
 import TasksFilter from "../tasks-filter";
 import "./footer.css";
+import PropTypes from 'prop-types';
 
 const Footer = ({ todoData, deleteCompleted, ...tabs }) => {
   const count = todoData.filter((el) => el.condition !== "completed").length;

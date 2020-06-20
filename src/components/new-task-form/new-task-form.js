@@ -1,5 +1,6 @@
 import React from "react";
 import "./new-task-form.css";
+import PropTypes from 'prop-types';
 
 class NewTaskForm extends React.Component {
 

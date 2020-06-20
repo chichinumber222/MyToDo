@@ -1,6 +1,7 @@
 import React from "react";
 import "./task.css";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import PropTypes from 'prop-types';
 
 class Task extends React.Component {
   static propTypes = {
