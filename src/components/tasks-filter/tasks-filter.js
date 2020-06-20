@@ -24,4 +24,9 @@ const TasksFilter = ({ onTab, tab }) => {
   );
 };
 
+TasksFilter.propTypes = {
+  onTab: PropTypes.func.isRequired,
+  tab: PropTypes.oneOf(["all", "active", "completed"]).isRequired,
+};
+
 export default TasksFilter;

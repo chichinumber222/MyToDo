@@ -2,6 +2,11 @@ import React from "react";
 import "./new-task-form.css";
 
 class NewTaskForm extends React.Component {
+
+  static propTypes = {
+    add: PropTypes.func.isRequired
+  }
+
   state = {
     value: "",
   };

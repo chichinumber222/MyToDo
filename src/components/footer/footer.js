@@ -16,4 +16,9 @@ const Footer = ({ todoData, deleteCompleted, ...tabs }) => {
   );
 };
 
+Footer.propTypes = {
+  todoData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  deleteCompleted: PropTypes.func.isRequired,
+};
+
 export default Footer;
