@@ -3,10 +3,12 @@ import "./task.css";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 class Task extends React.Component {
-  state = {
-    previousCondition: '',
-    previousText: '',
+  values = {
+    prevCondition: '',
     flag: true,
+  }
+
+  state = {
     currentText: ''
   };
 
@@ -14,31 +16,30 @@ class Task extends React.Component {
 
   editFn = (e) => {
     this.setState({
-      previousCondition: this.props.condition,
-      previousText: this.props.text,
       currentText: this.props.text
     });
-    this.props.edit(this.props.id, {"condition": "editing"}, this.editInput.current);
+    this.values.prevCondition = this.props.condition;
+    this.props.edit(this.props.id, { "condition": "editing" }, this.editInput.current);
   };
   editFnBlur = () => {
-    if (this.state.flag) {
+    if (this.values.flag) {
       const id = this.props.id;
-      const prevCondition = this.state.previousCondition;
-      const prevText = this.state.previousText;
-      this.props.edit(id, {'condition': prevCondition, 'text': prevText})
+      const condition = this.values.prevCondition;
+      const text = this.props.text;
+      this.props.edit(id, { 'condition': condition, 'text': text })
     }
-    this.setState({flag: true});
+    this.values.flag = true;
   };
   changeField = (e) => {
-    this.setState({currentText: e.target.value});
+    this.setState({ currentText: e.target.value });
   };
   submit = (e) => {
     e.preventDefault();
-    this.setState({flag: false});
+    this.values.flag = false;
     const id = this.props.id;
-    const prevCondition = this.state.previousCondition;
-    const currentText = this.state.currentText;
-    this.props.edit(id, {'condition': prevCondition, 'text': currentText});
+    const condition = this.values.prevCondition;
+    const text = this.state.currentText;
+    this.props.edit(id, { 'condition': condition, 'text': text });
   }
 
   render() {
@@ -74,7 +75,6 @@ class Task extends React.Component {
             value={this.state.currentText}
             onChange={this.changeField}
             onBlur={this.editFnBlur}
-            autoFocus
           />
         </form>
       </li>
