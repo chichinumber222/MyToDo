@@ -3,6 +3,15 @@ import "./task.css";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 class Task extends React.Component {
+  static propTypes = {
+    condition: PropTypes.oneOf(['active', 'completed', 'editing']).isRequired,
+    id: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
+    markComplete: PropTypes.func.isRequired,
+    del: PropTypes.func.isRequired,
+    time: PropTypes.instanceOf(Date).isRequired,
+  }
+  
   values = {
     prevCondition: '',
     flag: true,
