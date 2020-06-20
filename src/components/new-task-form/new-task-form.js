@@ -1,7 +1,13 @@
 import React from "react";
 import "./new-task-form.css";
+import PropTypes from 'prop-types';
 
 class NewTaskForm extends React.Component {
+
+  static propTypes = {
+    add: PropTypes.func.isRequired
+  }
+
   state = {
     value: "",
   };

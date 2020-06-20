@@ -1,46 +1,57 @@
 import React from "react";
 import "./task.css";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import PropTypes from 'prop-types';
 
 class Task extends React.Component {
-  state = {
-    previousCondition: "",
-    previousText: "",
+  
+  static propTypes = {
+    condition: PropTypes.oneOf(['active', 'completed', 'editing']).isRequired,
+    id: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
+    markComplete: PropTypes.func.isRequired,
+    del: PropTypes.func.isRequired,
+    time: PropTypes.instanceOf(Date).isRequired,
+  }
+  
+  values = {
+    prevCondition: '',
     flag: true,
-    currentText: "",
+  }
+
+  state = {
+    currentText: ''
   };
 
   editInput = React.createRef();
 
   editFn = (e) => {
     this.setState({
-      previousCondition: this.props.condition,
-      previousText: this.props.text,
-      currentText: this.props.text,
+      currentText: this.props.text
     });
-    this.props.edit(this.props.id, { condition: "editing" });
-    setTimeout(() => this.editInput.current.focus(), 0);
+    this.values.prevCondition = this.props.condition;
+    this.props.edit(this.props.id, { "condition": "editing" }, this.editInput.current);
   };
   editFnBlur = () => {
-    if (this.state.flag) {
+    if (this.values.flag) {
       const id = this.props.id;
-      const prevCondition = this.state.previousCondition;
-      const prevText = this.state.previousText;
-      this.props.edit(id, { condition: prevCondition, text: prevText });
+      const condition = this.values.prevCondition;
+      const text = this.props.text;
+      this.props.edit(id, { 'condition': condition, 'text': text })
     }
-    this.setState({ flag: true });
+    this.values.flag = true;
   };
   changeField = (e) => {
     this.setState({ currentText: e.target.value });
   };
   submit = (e) => {
     e.preventDefault();
-    this.setState({ flag: false });
+    this.values.flag = false;
     const id = this.props.id;
-    const prevCondition = this.state.previousCondition;
-    const currentText = this.state.currentText;
-    this.props.edit(id, { condition: prevCondition, text: currentText });
-  };
+    const condition = this.values.prevCondition;
+    const text = this.state.currentText;
+    this.props.edit(id, { 'condition': condition, 'text': text });
+  }
 
   render() {
     const { condition, id, text, markComplete, del, time } = this.props;
@@ -73,7 +84,6 @@ class Task extends React.Component {
             value={this.state.currentText}
             onChange={this.changeField}
             onBlur={this.editFnBlur}
-            autoFocus
           />
         </form>
       </li>

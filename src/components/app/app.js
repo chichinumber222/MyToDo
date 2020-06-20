@@ -70,7 +70,7 @@ class App extends React.Component {
       };
     });
   };
-  onEditing = (id, obj) => {
+  onEditing = (id, obj, elementDOM) => {
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id);
       const oldItem = todoData[index];
@@ -83,6 +83,8 @@ class App extends React.Component {
       return {
         todoData: newArray,
       };
+    }, () => {
+      if (elementDOM) elementDOM.focus();
     });
   };
 

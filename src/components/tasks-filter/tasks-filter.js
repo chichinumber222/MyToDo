@@ -1,5 +1,6 @@
 import React from "react";
 import "./tasks-filter.css";
+import PropTypes from 'prop-types';
 
 const TasksFilter = ({ onTab, tab }) => {
   
@@ -22,6 +23,11 @@ const TasksFilter = ({ onTab, tab }) => {
       <li>{createButton("completed", onTab, "Completed")}</li>
     </ul>
   );
+};
+
+TasksFilter.propTypes = {
+  onTab: PropTypes.func.isRequired,
+  tab: PropTypes.oneOf(["all", "active", "completed"]).isRequired,
 };
 
 export default TasksFilter;
