@@ -10,13 +10,16 @@
   "plugins": [
     "react"
   ],
+  "parser": "babel-eslint",
   "parserOptions": {
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": 6
   },
   "rules": {
+    "strict": 0,
     "react/jsx-filename-extension": [
       1,
       {
@@ -26,7 +29,7 @@
         ]
       }
     ],
-    // "semi": "off",
+    "semi": "off",
     "no-plusplus": "off",
     "eol-last": "off",
     "no-tabs": "off",

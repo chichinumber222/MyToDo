@@ -1,26 +1,27 @@
-import React from "react";
-import NewTaskForm from "../new-task-form";
-import TaskList from "../task-list";
-import Footer from "../footer";
-import "./app.css";
+import React from 'react';
+import NewTaskForm from '../new-task-form';
+import TaskList from '../task-list';
+import Footer from '../footer';
+import './app.css';
 
 class App extends React.Component {
   maxId = 100;
+
   state = {
     todoData: [
-      this.createTask("task №1"),
-      this.createTask("task №2"),
-      this.createTask("task №3"),
+      this.createTask('task №1'),
+      this.createTask('task №2'),
+      this.createTask('task №3'),
     ],
-    tab: "all",
+    tab: 'all',
   };
+
   onMarkComplete = (id) => {
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id);
       const oldItem = todoData[index];
 
-      const newCondition =
-        oldItem.condition === "completed" ? "active" : "completed";
+      const newCondition = oldItem.condition === 'completed' ? 'active' : 'completed';
       const newItem = { ...oldItem, condition: newCondition };
 
       const newArray = [
@@ -33,6 +34,7 @@ class App extends React.Component {
       };
     });
   };
+
   onDelete = (id) => {
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id);
@@ -46,6 +48,7 @@ class App extends React.Component {
       };
     });
   };
+
   onAdd = (text) => {
     const item = this.createTask(text);
     this.setState(({ todoData }) => {
@@ -55,21 +58,24 @@ class App extends React.Component {
       };
     });
   };
+
   onTab = (name) => {
     this.setState({
       tab: name,
     });
   };
+
   onDeleteCompleted = () => {
     this.setState(({ todoData }) => {
       const newArray = todoData.filter(
-        (item) => item.condition !== "completed"
+        (item) => item.condition !== 'completed',
       );
       return {
         todoData: newArray,
       };
     });
   };
+
   onEditing = (id, obj, elementDOM) => {
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id);
@@ -90,7 +96,7 @@ class App extends React.Component {
 
   createTask(text) {
     return {
-      condition: "active",
+      condition: 'active',
       text,
       id: this.maxId++,
       time: new Date(),

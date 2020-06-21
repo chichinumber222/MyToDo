@@ -5,14 +5,10 @@ import './index.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
-// const name = 'Ivan';
-// const a = (y) => y + 1;
-// a(2);
-// function man(n) {
-//   console.log(n);
-//   alert(n);
-//   n = 45;
-//   return n;
-// }
+// const a = 10;
+// const b = 23;
 
-// man(name);
+// const x = 100;
+// const y = 70;
+// const fn = (x1, x2) => `Ivan${x1}${x2}`;
+// fn(x, y);
