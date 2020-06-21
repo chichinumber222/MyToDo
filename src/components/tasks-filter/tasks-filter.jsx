@@ -3,13 +3,13 @@ import './tasks-filter.css';
 import PropTypes from 'prop-types';
 
 const TasksFilter = ({ onTab, tab }) => {
-  function createButton(n, fn, text) {
+  function createButton(name, fn, text) {
     return (
       <button
         type="button"
-        name={n}
-        className={tab === n ? 'selected' : ''}
-        onClick={(e) => fn(e.target.name)}
+        name={name}
+        className={tab === name ? 'selected' : ''}
+        onClick={(event) => fn(event.target.name)}
       >
         {text}
       </button>

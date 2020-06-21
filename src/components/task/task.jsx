@@ -4,19 +4,10 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import PropTypes from 'prop-types';
 
 class Task extends React.Component {
-  static propTypes = {
-    condition: PropTypes.oneOf(['active', 'completed', 'editing']).isRequired,
-    id: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired,
-    markComplete: PropTypes.func.isRequired,
-    del: PropTypes.func.isRequired,
-    time: PropTypes.instanceOf(Date).isRequired,
-  }
-
   values = {
     prevCondition: '',
     flag: true,
-  }
+  };
 
   state = {
     currentText: '',
@@ -24,7 +15,7 @@ class Task extends React.Component {
 
   editInput = React.createRef();
 
-  editFn = (e) => {
+  editFn = () => {
     this.setState({
       currentText: this.props.text,
     });
@@ -34,9 +25,9 @@ class Task extends React.Component {
 
   editFnBlur = () => {
     if (this.values.flag) {
-      const id = this.props.id;
+      const { id } = this.props;
       const condition = this.values.prevCondition;
-      const text = this.props.text;
+      const { text } = this.props;
       this.props.edit(id, { condition, text });
     }
     this.values.flag = true;
@@ -49,16 +40,14 @@ class Task extends React.Component {
   submit = (e) => {
     e.preventDefault();
     this.values.flag = false;
-    const id = this.props.id;
+    const { id } = this.props;
     const condition = this.values.prevCondition;
     const text = this.state.currentText;
     this.props.edit(id, { condition, text });
-  }
+  };
 
   render() {
-    const {
-      condition, id, text, markComplete, del, time,
-    } = this.props;
+    const { condition, id, text, markComplete, del, time } = this.props;
     const timeAgo = formatDistanceToNow(time, { includeSeconds: true });
 
     return (
@@ -74,16 +63,11 @@ class Task extends React.Component {
             <span className="description">{text}</span>
             <span className="created">
               {timeAgo}
-              {' '}
               ago
             </span>
           </label>
-          <button className="icon icon-edit" onClick={this.editFn} />
-          <button
-            id="des"
-            className="icon icon-destroy"
-            onClick={() => del(id)}
-          />
+          <button type="button" className="icon icon-edit" onClick={this.editFn} />
+          <button type="button" className="icon icon-destroy" onClick={() => del(id)} />
         </div>
         <form onSubmit={this.submit}>
           <input
@@ -98,5 +82,14 @@ class Task extends React.Component {
     );
   }
 }
+
+Task.propTypes = {
+  condition: PropTypes.oneOf(['active', 'completed', 'editing']).isRequired,
+  id: PropTypes.number.isRequired,
+  text: PropTypes.string.isRequired,
+  markComplete: PropTypes.func.isRequired,
+  del: PropTypes.func.isRequired,
+  time: PropTypes.instanceOf(Date).isRequired,
+};
 
 export default Task;

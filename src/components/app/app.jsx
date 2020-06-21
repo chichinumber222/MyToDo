@@ -8,11 +8,7 @@ class App extends React.Component {
   maxId = 100;
 
   state = {
-    todoData: [
-      this.createTask('task №1'),
-      this.createTask('task №2'),
-      this.createTask('task №3'),
-    ],
+    todoData: [this.createTask('task №1'), this.createTask('task №2'), this.createTask('task №3')],
     tab: 'all',
   };
 
@@ -24,11 +20,7 @@ class App extends React.Component {
       const newCondition = oldItem.condition === 'completed' ? 'active' : 'completed';
       const newItem = { ...oldItem, condition: newCondition };
 
-      const newArray = [
-        ...todoData.slice(0, index),
-        newItem,
-        ...todoData.slice(index + 1),
-      ];
+      const newArray = [...todoData.slice(0, index), newItem, ...todoData.slice(index + 1)];
       return {
         todoData: newArray,
       };
@@ -38,10 +30,7 @@ class App extends React.Component {
   onDelete = (id) => {
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id);
-      const newArray = [
-        ...todoData.slice(0, index),
-        ...todoData.slice(index + 1),
-      ];
+      const newArray = [...todoData.slice(0, index), ...todoData.slice(index + 1)];
 
       return {
         todoData: newArray,
@@ -67,9 +56,7 @@ class App extends React.Component {
 
   onDeleteCompleted = () => {
     this.setState(({ todoData }) => {
-      const newArray = todoData.filter(
-        (item) => item.condition !== 'completed',
-      );
+      const newArray = todoData.filter((item) => item.condition !== 'completed');
       return {
         todoData: newArray,
       };
@@ -77,21 +64,20 @@ class App extends React.Component {
   };
 
   onEditing = (id, obj, elementDOM) => {
-    this.setState(({ todoData }) => {
-      const index = todoData.findIndex((el) => el.id === id);
-      const oldItem = todoData[index];
-      const newItem = { ...oldItem, ...obj };
-      const newArray = [
-        ...todoData.slice(0, index),
-        newItem,
-        ...todoData.slice(index + 1),
-      ];
-      return {
-        todoData: newArray,
-      };
-    }, () => {
-      if (elementDOM) elementDOM.focus();
-    });
+    this.setState(
+      ({ todoData }) => {
+        const index = todoData.findIndex((el) => el.id === id);
+        const oldItem = todoData[index];
+        const newItem = { ...oldItem, ...obj };
+        const newArray = [...todoData.slice(0, index), newItem, ...todoData.slice(index + 1)];
+        return {
+          todoData: newArray,
+        };
+      },
+      () => {
+        if (elementDOM) elementDOM.focus();
+      }
+    );
   };
 
   createTask(text) {
@@ -104,21 +90,19 @@ class App extends React.Component {
   }
 
   render() {
+    const { todoData, tab } = this.state;
     return (
       <section className="todoapp">
         <NewTaskForm add={this.onAdd} />
         <section className="main">
           <TaskList
-            {...this.state}
+            todoData={todoData}
+            tab={tab}
             markComplete={this.onMarkComplete}
             del={this.onDelete}
             edit={this.onEditing}
           />
-          <Footer
-            {...this.state}
-            onTab={this.onTab}
-            deleteCompleted={this.onDeleteCompleted}
-          />
+          <Footer todoData={todoData} tab={tab} onTab={this.onTab} deleteCompleted={this.onDeleteCompleted} />
         </section>
       </section>
     );
