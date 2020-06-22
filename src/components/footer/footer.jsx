@@ -8,10 +8,7 @@ const Footer = ({ todoData, deleteCompleted, tab, onTab }) => {
 
   return (
     <footer className="footer">
-      <span className="todo-count">
-        {count}
-        items left
-      </span>
+      <span className="todo-count">{count} items left</span>
       <TasksFilter tab={tab} onTab={onTab} />
       <button type="button" className="clear-completed" onClick={deleteCompleted}>
         Clear completed

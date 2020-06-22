@@ -8,7 +8,7 @@ class App extends React.Component {
   maxId = 100;
 
   state = {
-    todoData: [this.createTask('task №1'), this.createTask('task №2'), this.createTask('task №3')],
+    todoData: [],
     tab: 'all',
   };
 
@@ -81,11 +81,14 @@ class App extends React.Component {
   };
 
   createTask(text) {
+    const id = this.maxId;
+    this.maxId += 1;
+    const time = new Date();
     return {
       condition: 'active',
       text,
-      id: this.maxId++,
-      time: new Date(),
+      id,
+      time,
     };
   }
 

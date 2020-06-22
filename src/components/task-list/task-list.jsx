@@ -3,24 +3,21 @@ import PropTypes from 'prop-types';
 import Task from '../task';
 import './task-list.css';
 
-class TaskList extends React.Component {
-  static propTypes = {
-    todoData: PropTypes.arrayOf(PropTypes.object).isRequired,
-    tab: PropTypes.oneOf(['all', 'active', 'completed']).isRequired,
-  };
+const TaskList = ({ todoData, tab, ...handleForTask }) => {
+  const todoWithTab =
+    tab === 'all' ? todoData : todoData.filter((item) => item.condition === tab || item.condition === 'editing');
 
-  render() {
-    const { todoData, tab, ...handleForTask } = this.props;
-    const todoWithTab =
-      tab === 'all' ? todoData : todoData.filter((item) => item.condition === tab || item.condition === 'editing');
+  const elements = todoWithTab.map((item) => {
+    const { id } = item;
+    return <Task key={id} {...item} {...handleForTask} />;
+  });
 
-    const elements = todoWithTab.map((item) => {
-      const { id } = item;
-      return <Task {...item} key={id} {...handleForTask} />;
-    });
+  return <ul className="todo-list">{elements}</ul>;
+};
 
-    return <ul className="todo-list">{elements}</ul>;
-  }
-}
+TaskList.propTypes = {
+  todoData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tab: PropTypes.oneOf(['all', 'active', 'completed']).isRequired,
+};
 
 export default TaskList;

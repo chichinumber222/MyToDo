@@ -16,34 +16,35 @@ class Task extends React.Component {
   editInput = React.createRef();
 
   editFn = () => {
+    const { condition, text, id, edit } = this.props;
     this.setState({
-      currentText: this.props.text,
+      currentText: text,
     });
-    this.values.prevCondition = this.props.condition;
-    this.props.edit(this.props.id, { condition: 'editing' }, this.editInput.current);
+    this.values.prevCondition = condition;
+    edit(id, { condition: 'editing' }, this.editInput.current);
   };
 
   editFnBlur = () => {
+    const { id, text, edit } = this.props;
     if (this.values.flag) {
-      const { id } = this.props;
       const condition = this.values.prevCondition;
-      const { text } = this.props;
-      this.props.edit(id, { condition, text });
+      edit(id, { condition, text });
     }
     this.values.flag = true;
   };
 
-  changeField = (e) => {
-    this.setState({ currentText: e.target.value });
+  changeField = (event) => {
+    this.setState({ currentText: event.target.value });
   };
 
-  submit = (e) => {
-    e.preventDefault();
+  submit = (event) => {
+    event.preventDefault();
     this.values.flag = false;
-    const { id } = this.props;
-    const condition = this.values.prevCondition;
+    const { id, edit } = this.props;
+    // eslint-disable-next-line react/destructuring-assignment
     const text = this.state.currentText;
-    this.props.edit(id, { condition, text });
+    const condition = this.values.prevCondition;
+    edit(id, { condition, text });
   };
 
   render() {
@@ -61,18 +62,16 @@ class Task extends React.Component {
           />
           <label>
             <span className="description">{text}</span>
-            <span className="created">
-              {timeAgo}
-              ago
-            </span>
+            <span className="created">{timeAgo} ago</span>
           </label>
-          <button type="button" className="icon icon-edit" onClick={this.editFn} />
-          <button type="button" className="icon icon-destroy" onClick={() => del(id)} />
+          <button type="button" className="icon icon-edit" onClick={this.editFn} aria-label="edit" />
+          <button type="button" className="icon icon-destroy" onClick={() => del(id)} aria-label="delete" />
         </div>
         <form onSubmit={this.submit}>
           <input
             ref={this.editInput}
             className="edit"
+            // eslint-disable-next-line react/destructuring-assignment
             value={this.state.currentText}
             onChange={this.changeField}
             onBlur={this.editFnBlur}
@@ -87,6 +86,7 @@ Task.propTypes = {
   condition: PropTypes.oneOf(['active', 'completed', 'editing']).isRequired,
   id: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
+  edit: PropTypes.func.isRequired,
   markComplete: PropTypes.func.isRequired,
   del: PropTypes.func.isRequired,
   time: PropTypes.instanceOf(Date).isRequired,

@@ -7,14 +7,15 @@ class NewTaskForm extends React.Component {
     value: '',
   };
 
-  changeField = (e) => {
+  changeField = (event) => {
     this.setState({
-      value: e.target.value,
+      value: event.target.value,
     });
   };
 
-  submitForm = (e) => {
-    e.preventDefault();
+  submitForm = (event) => {
+    event.preventDefault();
+    // eslint-disable-next-line react/destructuring-assignment
     this.props.add(this.state.value);
     this.setState({
       value: '',
@@ -29,7 +30,7 @@ class NewTaskForm extends React.Component {
           <input
             className="new-todo"
             placeholder="What needs to be done?"
-            autoFocus
+            // eslint-disable-next-line react/destructuring-assignment
             value={this.state.value}
             onChange={this.changeField}
           />
