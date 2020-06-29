@@ -7,13 +7,42 @@ class Task extends React.Component {
   values = {
     prevCondition: '',
     flag: true,
-  };
-
-  state = {
-    currentText: '',
+    timerId: null,
   };
 
   editInput = React.createRef();
+
+  constructor(props) {
+    super(props);
+    this.changeTime = () => {
+      const { time } = this.props;
+      return formatDistanceToNow(time, { includeSeconds: true, addSuffix: true });
+    };
+
+    this.state = {
+      currentText: '',
+      timeAgo: this.changeTime(),
+    };
+
+    this.values.timerId = setTimeout(
+      function run() {
+        console.log(this);
+        console.log(new Date().getSeconds());
+        const time = this.changeTime();
+        this.setState({ timeAgo: time });
+        if (time.includes('second')) {
+          this.values.timerId = setTimeout(run.bind(this), 5000);
+        } else {
+          this.values.timerId = setTimeout(run.bind(this), 30000);
+        }
+      }.bind(this),
+      5000
+    );
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.values.timerId);
+  }
 
   editFn = () => {
     const { condition, text, id, edit } = this.props;
@@ -48,8 +77,8 @@ class Task extends React.Component {
   };
 
   render() {
-    const { condition, id, text, markComplete, del, time } = this.props;
-    const timeAgo = formatDistanceToNow(time, { includeSeconds: true });
+    const { condition, id, text, markComplete, del } = this.props;
+    const { timeAgo, currentText } = this.state;
 
     return (
       <li className={condition}>
@@ -62,7 +91,7 @@ class Task extends React.Component {
           />
           <label>
             <span className="description">{text}</span>
-            <span className="created">{timeAgo} ago</span>
+            <span className="created">{timeAgo}</span>
           </label>
           <button type="button" className="icon icon-edit" onClick={this.editFn} aria-label="edit" />
           <button type="button" className="icon icon-destroy" onClick={() => del(id)} aria-label="delete" />
@@ -71,8 +100,7 @@ class Task extends React.Component {
           <input
             ref={this.editInput}
             className="edit"
-            // eslint-disable-next-line react/destructuring-assignment
-            value={this.state.currentText}
+            value={currentText}
             onChange={this.changeField}
             onBlur={this.editFnBlur}
           />
