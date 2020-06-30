@@ -12,22 +12,14 @@ class Task extends React.Component {
 
   editInput = React.createRef();
 
-  constructor(props) {
-    super(props);
-    this.changeTime = () => {
-      const { time } = this.props;
-      return formatDistanceToNow(time, { includeSeconds: true, addSuffix: true });
-    };
+  state = {
+    currentText: '',
+    timeAgo: this.changeTime(),
+  };
 
-    this.state = {
-      currentText: '',
-      timeAgo: this.changeTime(),
-    };
-
+  componentDidMount() {
     this.values.timerId = setTimeout(
       function run() {
-        console.log(this);
-        console.log(new Date().getSeconds());
         const time = this.changeTime();
         this.setState({ timeAgo: time });
         if (time.includes('second')) {
@@ -75,6 +67,11 @@ class Task extends React.Component {
     const condition = this.values.prevCondition;
     edit(id, { condition, text });
   };
+
+  changeTime() {
+    const { time } = this.props;
+    return formatDistanceToNow(time, { includeSeconds: true, addSuffix: true });
+  }
 
   render() {
     const { condition, id, text, markComplete, del } = this.props;
