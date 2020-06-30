@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import './new-task-form.css';
 import PropTypes from 'prop-types';
@@ -15,7 +16,9 @@ class NewTaskForm extends React.Component {
 
   submitForm = (event) => {
     event.preventDefault();
-    // eslint-disable-next-line react/destructuring-assignment
+    if (!this.state.value.trim()) {
+      return;
+    }
     this.props.add(this.state.value);
     this.setState({
       value: '',
@@ -30,7 +33,6 @@ class NewTaskForm extends React.Component {
           <input
             className="new-todo"
             placeholder="What needs to be done?"
-            // eslint-disable-next-line react/destructuring-assignment
             value={this.state.value}
             onChange={this.changeField}
           />

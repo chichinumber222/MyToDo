@@ -60,6 +60,8 @@ class Task extends React.Component {
 
   submit = (event) => {
     event.preventDefault();
+    // eslint-disable-next-line react/destructuring-assignment
+    if (!this.state.currentText.trim()) return;
     this.values.flag = false;
     const { id, edit } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
