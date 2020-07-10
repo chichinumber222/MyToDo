@@ -80,7 +80,7 @@ class App extends React.Component {
     );
   };
 
-  createTask(text) {
+  createTask(text, alreadyTime) {
     const id = this.maxId;
     this.maxId += 1;
     const time = new Date();
@@ -89,6 +89,7 @@ class App extends React.Component {
       text,
       id,
       time,
+      alreadyTime,
     };
   }
 

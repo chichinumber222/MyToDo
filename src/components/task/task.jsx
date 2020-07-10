@@ -8,6 +8,7 @@ class Task extends React.Component {
     prevCondition: '',
     flag: true,
     timerId: null,
+    timerId2: null,
   };
 
   editInput = React.createRef();
@@ -15,6 +16,7 @@ class Task extends React.Component {
   state = {
     currentText: '',
     timeAgo: this.changeTime(),
+    alreadyTime: '12:45',
   };
 
   componentDidMount() {
@@ -74,9 +76,32 @@ class Task extends React.Component {
     return formatDistanceToNow(time, { includeSeconds: true, addSuffix: true });
   }
 
+
+  timerOn = () => {
+    const i = 0;
+    // this.timerOff();
+    this.values.timerId2 = setInterval(() => {
+      const { alreadyTime } = this.state;
+      const arr = alreadyTime.split(':');
+      if  (arr[1] == 59) {
+        this.setState({
+          alreadyTime: `${+arr[0] + 1}:${0}`,
+        })
+      } else {
+        this.setState({
+          alreadyTime: `${+arr[0]}:${+arr[1]+1}`,
+        })
+      }     
+    }, 1000);
+  }
+
+  timerOff = () => {
+    clearInterval(this.values.timerId2);
+  }
+
   render() {
     const { condition, id, text, markComplete, del } = this.props;
-    const { timeAgo, currentText } = this.state;
+    const { timeAgo, currentText, alreadyTime } = this.state;
 
     return (
       <li className={condition}>
@@ -88,11 +113,36 @@ class Task extends React.Component {
             checked={condition === 'completed'}
           />
           <label>
-            <span className="description">{text}</span>
-            <span className="created">{timeAgo}</span>
+            <span className="title">{text}</span>
+            <span className="description">
+              <button 
+                type="button" 
+                className="icon icon-play" 
+                aria-label="play"
+                onClick={this.timerOn} 
+              />
+              <button 
+                type="button" 
+                className="icon icon-pause" 
+                aria-label="pause" 
+                onClick={this.timerOff}
+              />
+              {alreadyTime}
+            </span>
+            <span className="description">{timeAgo}</span>
           </label>
-          <button type="button" className="icon icon-edit" onClick={this.editFn} aria-label="edit" />
-          <button type="button" className="icon icon-destroy" onClick={() => del(id)} aria-label="delete" />
+          <button 
+            type="button" 
+            className="icon icon-edit" 
+            onClick={this.editFn} 
+            aria-label="edit" 
+          />
+          <button 
+            type="button" 
+            className="icon icon-destroy" 
+            onClick={() => del(id)} 
+            aria-label="delete" 
+          />
         </div>
         <form onSubmit={this.submit}>
           <input

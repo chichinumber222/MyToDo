@@ -1,42 +1,73 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import './new-task-form.css';
 import PropTypes from 'prop-types';
 
 class NewTaskForm extends React.Component {
   state = {
-    value: '',
+    text: '',
+    min: '',
+    sec: '',
   };
 
   changeField = (event) => {
+    const { name, value } = event.target;
     this.setState({
-      value: event.target.value,
-    });
+      [name]: value,
+    }); 
   };
 
   submitForm = (event) => {
     event.preventDefault();
-    const { value } = this.state;
+    const { text, min, sec } = this.state;
     const { add } = this.props;
+    if (!text.trim()) return;
 
-    if (!value.trim()) return;
-    add(value.trim());
+    add(text.trim(), ...this.format([min, sec]));
     this.setState({
-      value: '',
+      text: '',
+      min: '',
+      sec: '',
     });
   };
 
+  format(arr) {
+    return arr.map((element) => {
+      const elementNum = Number(element);
+      if (elementNum !== elementNum) elementNum = 0;      
+      return elementNum;
+    })
+  }
+
   render() {
+    const { text, min, sec } = this.state;
+
     return (
       <header className="header">
         <h1>todos</h1>
-        <form onSubmit={this.submitForm}>
+        <form className='new-todo-form' onSubmit={this.submitForm}>
           <input
             className="new-todo"
-            placeholder="What needs to be done?"
-            // eslint-disable-next-line react/destructuring-assignment
-            value={this.state.value}
+            placeholder="Task"
+            name='text'
             onChange={this.changeField}
+            value={text}
           />
+          <input 
+            className="new-todo-form__timer" 
+            placeholder="Min" 
+            name='min' 
+            onChange={this.changeField} 
+            value={min}
+          />
+          <input 
+            className="new-todo-form__timer" 
+            placeholder="Sec" 
+            name='sec' 
+            onChange={this.changeField} 
+            value={sec}
+          />
+          <input type="submit" hidden />
         </form>
       </header>
     );
