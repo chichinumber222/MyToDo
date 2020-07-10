@@ -2,8 +2,10 @@
 import React from 'react';
 import './new-task-form.css';
 import PropTypes from 'prop-types';
+import WorkWithDate from '../../services/work-with-date';
 
 class NewTaskForm extends React.Component {
+
   state = {
     text: '',
     min: '',
@@ -23,21 +25,14 @@ class NewTaskForm extends React.Component {
     const { add } = this.props;
     if (!text.trim()) return;
 
-    add(text.trim(), ...this.format([min, sec]));
+    const alreadyTime =  new WorkWithDate(min, sec).format().result();
+    add(text.trim(), alreadyTime);
     this.setState({
       text: '',
       min: '',
       sec: '',
     });
   };
-
-  format(arr) {
-    return arr.map((element) => {
-      const elementNum = Number(element);
-      if (elementNum !== elementNum) elementNum = 0;      
-      return elementNum;
-    })
-  }
 
   render() {
     const { text, min, sec } = this.state;

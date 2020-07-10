@@ -2,6 +2,7 @@ import React from 'react';
 import NewTaskForm from '../new-task-form';
 import TaskList from '../task-list';
 import Footer from '../footer';
+import WorkWithDate from '../../services/work-with-date';
 import './app.css';
 
 class App extends React.Component {
@@ -38,8 +39,8 @@ class App extends React.Component {
     });
   };
 
-  onAdd = (text) => {
-    const item = this.createTask(text);
+  onAdd = (text, alreadyTime) => {
+    const item = this.createTask(text, alreadyTime);
     this.setState(({ todoData }) => {
       const newArray = [item, ...todoData];
       return {
@@ -80,6 +81,19 @@ class App extends React.Component {
     );
   };
 
+  onTimerOn = (id) => {
+    setInterval(() => {
+        const { todoData } = this.state;
+        const i = todoData.findIndex((el) => el.id === id);
+        const [min, sec] = todoData[i].alreadyTime;
+        this.onEditing(id, {alreadyTime: [min, sec + 1]});
+    }, 1000);
+  }
+
+  onTimerOff = (id) => {
+
+  }
+
   createTask(text, alreadyTime) {
     const id = this.maxId;
     this.maxId += 1;
@@ -105,6 +119,7 @@ class App extends React.Component {
             markComplete={this.onMarkComplete}
             del={this.onDelete}
             edit={this.onEditing}
+            timerOn={this.onTimerOn}
           />
           <Footer todoData={todoData} tab={tab} onTab={this.onTab} deleteCompleted={this.onDeleteCompleted} />
         </section>

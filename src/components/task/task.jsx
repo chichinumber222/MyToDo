@@ -2,13 +2,13 @@ import React from 'react';
 import './task.css';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import PropTypes from 'prop-types';
+import WorkWithDate from '../../services/work-with-date';
 
 class Task extends React.Component {
   values = {
     prevCondition: '',
     flag: true,
     timerId: null,
-    timerId2: null,
   };
 
   editInput = React.createRef();
@@ -16,7 +16,6 @@ class Task extends React.Component {
   state = {
     currentText: '',
     timeAgo: this.changeTime(),
-    alreadyTime: '12:45',
   };
 
   componentDidMount() {
@@ -76,32 +75,11 @@ class Task extends React.Component {
     return formatDistanceToNow(time, { includeSeconds: true, addSuffix: true });
   }
 
-
-  timerOn = () => {
-    const i = 0;
-    // this.timerOff();
-    this.values.timerId2 = setInterval(() => {
-      const { alreadyTime } = this.state;
-      const arr = alreadyTime.split(':');
-      if  (arr[1] == 59) {
-        this.setState({
-          alreadyTime: `${+arr[0] + 1}:${0}`,
-        })
-      } else {
-        this.setState({
-          alreadyTime: `${+arr[0]}:${+arr[1]+1}`,
-        })
-      }     
-    }, 1000);
-  }
-
-  timerOff = () => {
-    clearInterval(this.values.timerId2);
-  }
-
   render() {
-    const { condition, id, text, markComplete, del } = this.props;
-    const { timeAgo, currentText, alreadyTime } = this.state;
+    const { condition, id, text, markComplete, del, timerOn, timerOff, alreadyTime } = this.props;
+    const { timeAgo, currentText } = this.state;
+    const alreadyTimeFormat = new WorkWithDate(...alreadyTime).recountMinuteSecond().transformToText().result();
+
 
     return (
       <li className={condition}>
@@ -119,15 +97,15 @@ class Task extends React.Component {
                 type="button" 
                 className="icon icon-play" 
                 aria-label="play"
-                onClick={this.timerOn} 
+                onClick={() => timerOn(id)} 
               />
               <button 
                 type="button" 
                 className="icon icon-pause" 
                 aria-label="pause" 
-                onClick={this.timerOff}
+                onClick={() => timerOff(id)}
               />
-              {alreadyTime}
+              {alreadyTimeFormat}
             </span>
             <span className="description">{timeAgo}</span>
           </label>
@@ -166,6 +144,9 @@ Task.propTypes = {
   markComplete: PropTypes.func.isRequired,
   del: PropTypes.func.isRequired,
   time: PropTypes.instanceOf(Date).isRequired,
+  timerOn: PropTypes.func.isRequired,
+  timerOff: PropTypes.func.isRequired,
+  alreadyTime: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 export default Task;
