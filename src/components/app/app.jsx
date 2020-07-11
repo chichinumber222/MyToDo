@@ -2,11 +2,12 @@ import React from 'react';
 import NewTaskForm from '../new-task-form';
 import TaskList from '../task-list';
 import Footer from '../footer';
-import WorkWithDate from '../../services/work-with-date';
 import './app.css';
 
 class App extends React.Component {
   maxId = 100;
+
+  timers = {};
 
   state = {
     todoData: [],
@@ -30,9 +31,9 @@ class App extends React.Component {
 
   onDelete = (id) => {
     this.setState(({ todoData }) => {
+      this.onTimerOff(id);
       const index = todoData.findIndex((el) => el.id === id);
       const newArray = [...todoData.slice(0, index), ...todoData.slice(index + 1)];
-
       return {
         todoData: newArray,
       };
@@ -57,7 +58,10 @@ class App extends React.Component {
 
   onDeleteCompleted = () => {
     this.setState(({ todoData }) => {
-      const newArray = todoData.filter((item) => item.condition !== 'completed');
+      const newArray = todoData.filter((item) => {
+        if (item.condition === 'completed') this.onTimerOff(item.id);
+        return item.condition !== 'completed';
+      });
       return {
         todoData: newArray,
       };
@@ -82,17 +86,19 @@ class App extends React.Component {
   };
 
   onTimerOn = (id) => {
-    setInterval(() => {
-        const { todoData } = this.state;
-        const i = todoData.findIndex((el) => el.id === id);
-        const [min, sec] = todoData[i].alreadyTime;
-        this.onEditing(id, {alreadyTime: [min, sec + 1]});
+    if (this.timers[id]) return;
+    this.timers[id] = setInterval(() => {
+      const { todoData } = this.state;
+      const i = todoData.findIndex((el) => el.id === id);
+      const [min, sec] = todoData[i].alreadyTime;
+      this.onEditing(id, { alreadyTime: [min, sec + 1] });
     }, 1000);
-  }
+  };
 
   onTimerOff = (id) => {
-
-  }
+    clearInterval(this.timers[id]);
+    delete this.timers[id];
+  };
 
   createTask(text, alreadyTime) {
     const id = this.maxId;
@@ -120,6 +126,7 @@ class App extends React.Component {
             del={this.onDelete}
             edit={this.onEditing}
             timerOn={this.onTimerOn}
+            timerOff={this.onTimerOff}
           />
           <Footer todoData={todoData} tab={tab} onTab={this.onTab} deleteCompleted={this.onDeleteCompleted} />
         </section>
