@@ -80,7 +80,6 @@ class Task extends React.Component {
     const { timeAgo, currentText } = this.state;
     const alreadyTimeFormat = new WorkWithDate(...alreadyTime).recountMinuteSecond().transformToText().result();
 
-
     return (
       <li className={condition}>
         <div className="view">
@@ -93,34 +92,14 @@ class Task extends React.Component {
           <label>
             <span className="title">{text}</span>
             <span className="description">
-              <button 
-                type="button" 
-                className="icon icon-play" 
-                aria-label="play"
-                onClick={() => timerOn(id)} 
-              />
-              <button 
-                type="button" 
-                className="icon icon-pause" 
-                aria-label="pause" 
-                onClick={() => timerOff(id)}
-              />
+              <button type="button" className="icon icon-play" aria-label="play" onClick={() => timerOn(id)} />
+              <button type="button" className="icon icon-pause" aria-label="pause" onClick={() => timerOff(id)} />
               {alreadyTimeFormat}
             </span>
             <span className="description">{timeAgo}</span>
           </label>
-          <button 
-            type="button" 
-            className="icon icon-edit" 
-            onClick={this.editFn} 
-            aria-label="edit" 
-          />
-          <button 
-            type="button" 
-            className="icon icon-destroy" 
-            onClick={() => del(id)} 
-            aria-label="delete" 
-          />
+          <button type="button" className="icon icon-edit" onClick={this.editFn} aria-label="edit" />
+          <button type="button" className="icon icon-destroy" onClick={() => del(id)} aria-label="delete" />
         </div>
         <form onSubmit={this.submit}>
           <input

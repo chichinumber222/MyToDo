@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import WorkWithDate from '../../services/work-with-date';
 
 class NewTaskForm extends React.Component {
-
   state = {
     text: '',
     min: '',
@@ -16,7 +15,7 @@ class NewTaskForm extends React.Component {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
-    }); 
+    });
   };
 
   submitForm = (event) => {
@@ -25,7 +24,7 @@ class NewTaskForm extends React.Component {
     const { add } = this.props;
     if (!text.trim()) return;
 
-    const alreadyTime =  new WorkWithDate(min, sec).format().result();
+    const alreadyTime = new WorkWithDate(min, sec).format().result();
     add(text.trim(), alreadyTime);
     this.setState({
       text: '',
@@ -40,26 +39,20 @@ class NewTaskForm extends React.Component {
     return (
       <header className="header">
         <h1>todos</h1>
-        <form className='new-todo-form' onSubmit={this.submitForm}>
+        <form className="new-todo-form" onSubmit={this.submitForm}>
+          <input className="new-todo" placeholder="Task" name="text" onChange={this.changeField} value={text} />
           <input
-            className="new-todo"
-            placeholder="Task"
-            name='text'
+            className="new-todo-form__timer"
+            placeholder="Min"
+            name="min"
             onChange={this.changeField}
-            value={text}
-          />
-          <input 
-            className="new-todo-form__timer" 
-            placeholder="Min" 
-            name='min' 
-            onChange={this.changeField} 
             value={min}
           />
-          <input 
-            className="new-todo-form__timer" 
-            placeholder="Sec" 
-            name='sec' 
-            onChange={this.changeField} 
+          <input
+            className="new-todo-form__timer"
+            placeholder="Sec"
+            name="sec"
+            onChange={this.changeField}
             value={sec}
           />
           <input type="submit" hidden />
